@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMP Negeri 1 Nusantara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-bg {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .admin-panel {
+            display: none;
+        }
+        .admin-panel.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-graduation-cap text-white text-xl"></i>
+                        </div>
+                        <span class="font-bold text-xl text-gray-800">SMP Negeri 1 Nusantara</span>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center space-x-6">
+                    <a href="#home" class="text-gray-700 hover:text-blue-600 font-medium transition">Beranda</a>
+                    <div class="relative group">
+                        <button class="text-gray-700 hover:text-blue-600 font-medium flex items-center">
+                            Profil <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <a href="#about" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Tentang Sekolah</a>
+                            <a href="#vision" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Visi & Misi</a>
+                            <a href="#history" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Sejarah</a>
+                            <a href="#facilities" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Fasilitas</a>
+                        </div>
+                    </div>
+                    <div class="relative group">
+                        <button class="text-gray-700 hover:text-blue-600 font-medium flex items-center">
+                            Akademik <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <a href="#programs" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Program Unggulan</a>
+                            <a href="#curriculum" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Kurikulum</a>
+                            <a href="#teachers" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Tenaga Pengajar</a>
+                            <a href="#achievements" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Prestasi</a>
+                        </div>
+                    </div>
+                    <div class="relative group">
+                        <button class="text-gray-700 hover:text-blue-600 font-medium flex items-center">
+                            Siswa <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <a href="#extracurricular" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Ekstrakurikuler</a>
+                            <a href="#student-council" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">OSIS</a>
+                            <a href="#alumni" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Alumni</a>
+                            <a href="#gallery" class="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600">Galeri</a>
+                        </div>
+                    </div>
+                    <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Berita</a>
+                    <a href="#contact" class="text-gray-700 hover:text-blue-600 font-medium transition">Kontak</a>
+                    <button onclick="toggleAdmin()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-cog mr-2"></i>Admin
+                    </button>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="lg:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-white border-t">
+            <div class="px-4 py-2 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Beranda</a>
+                <a href="#about" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Tentang</a>
+                <a href="#programs" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Program</a>
+                <a href="#news" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Berita</a>
+                <a href="#contact" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Kontak</a>
+                <button onclick="toggleAdmin()" class="block w-full text-left px-3 py-2 text-blue-600 hover:bg-blue-50 rounded">
+                    <i class="fas fa-cog mr-2"></i>Admin
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg pt-16 pb-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div class="text-white">
+                        <h1 class="text-4xl lg:text-6xl font-bold mb-6" id="hero-title">
+                            Membangun Generasi Unggul dan Berkarakter
+                        </h1>
+                        <p class="text-xl mb-8 text-blue-100" id="hero-subtitle">
+                            SMP Negeri 1 Nusantara berkomitmen memberikan pendidikan berkualitas dengan fasilitas modern dan tenaga pengajar profesional.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                                Daftar Sekarang
+                            </button>
+                            <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition">
+                                Pelajari Lebih Lanjut
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Siswa SMP" 
+                             class="rounded-2xl shadow-2xl w-full h-96 object-cover"
+                             id="hero-image"
+                             onerror="this.src=''; this.alt='Gambar tidak dapat dimuat'; this.style.display='none';">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Tentang Sekolah Kami</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Dengan pengalaman lebih dari 25 tahun, kami telah mencetak ribuan lulusan yang sukses di berbagai bidang.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                             alt="Gedung Sekolah" 
+                             class="rounded-2xl shadow-lg w-full h-80 object-cover"
+                             id="about-image"
+                             onerror="this.src=''; this.alt='Gambar tidak dapat dimuat'; this.style.display='none';">
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6" id="about-title">Visi & Misi Sekolah</h3>
+                        <div class="space-y-6" id="about-content">
+                            <div>
+                                <h4 class="text-lg font-semibold text-blue-600 mb-2">Visi</h4>
+                                <p class="text-gray-600">Menjadi sekolah menengah pertama yang unggul dalam prestasi, berkarakter mulia, dan berwawasan global.</p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-semibold text-blue-600 mb-2">Misi</h4>
+                                <ul class="text-gray-600 space-y-2">
+                                    <li>• Menyelenggarakan pendidikan berkualitas tinggi</li>
+                                    <li>• Mengembangkan karakter siswa yang berakhlak mulia</li>
+                                    <li>• Memfasilitasi pengembangan bakat dan minat siswa</li>
+                                    <li>• Menciptakan lingkungan belajar yang kondusif</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programs Section -->
+        <section id="programs" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Program Unggulan</h2>
+                    <p class="text-xl text-gray-600">Berbagai program inovatif untuk mengembangkan potensi siswa</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="programs-grid">
+                    <div class="bg-white rounded-2xl p-8 shadow-lg card-hover">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-laptop-code text-blue-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Kelas Digital</h3>
+                        <p class="text-gray-600">Program pembelajaran berbasis teknologi dengan fasilitas komputer dan internet terbaru.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 shadow-lg card-hover">
+                        <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-flask text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Laboratorium Sains</h3>
+                        <p class="text-gray-600">Fasilitas laboratorium lengkap untuk praktikum IPA yang mendukung pembelajaran eksperimental.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 shadow-lg card-hover">
+                        <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+                            <i class="fas fa-palette text-purple-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Ekstrakurikuler Seni</h3>
+                        <p class="text-gray-600">Berbagai kegiatan seni seperti musik, tari, dan lukis untuk mengembangkan kreativitas siswa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section id="news" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Berita Terkini</h2>
+                    <p class="text-xl text-gray-600">Informasi terbaru seputar kegiatan sekolah</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="news-grid">
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                        <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Prestasi Siswa" 
+                             class="w-full h-48 object-cover"
+                             onerror="this.src=''; this.alt='Gambar tidak dapat dimuat'; this.style.display='none';">
+                        <div class="p-6">
+                            <span class="text-blue-600 text-sm font-semibold">15 Desember 2024</span>
+                            <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">Siswa SMP Negeri 1 Raih Juara Olimpiade Sains</h3>
+                            <p class="text-gray-600">Tim olimpiade sains berhasil meraih medali emas dalam kompetisi tingkat provinsi...</p>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Kegiatan Sekolah" 
+                             class="w-full h-48 object-cover"
+                             onerror="this.src=''; this.alt='Gambar tidak dapat dimuat'; this.style.display='none';">
+                        <div class="p-6">
+                            <span class="text-blue-600 text-sm font-semibold">10 Desember 2024</span>
+                            <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">Penerimaan Siswa Baru Tahun Ajaran 2025/2026</h3>
+                            <p class="text-gray-600">Pendaftaran siswa baru telah dibuka dengan berbagai jalur penerimaan yang tersedia...</p>
+                        </div>
+                    </article>
+                    <article class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover">
+                        <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Fasilitas Baru" 
+                             class="w-full h-48 object-cover"
+                             onerror="this.src=''; this.alt='Gambar tidak dapat dimuat'; this.style.display='none';">
+                        <div class="p-6">
+                            <span class="text-blue-600 text-sm font-semibold">5 Desember 2024</span>
+                            <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">Peresmian Laboratorium Komputer Baru</h3>
+                            <p class="text-gray-600">Fasilitas laboratorium komputer dengan teknologi terbaru telah resmi beroperasi...</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 bg-gray-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-4">Hubungi Kami</h2>
+                    <p class="text-xl text-gray-600">Kami siap membantu menjawab pertanyaan Anda</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div>
+                        <div class="space-y-8">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-2">Alamat</h3>
+                                    <p class="text-gray-600" id="contact-address">Jl. Pendidikan No. 123, Kota Nusantara, Indonesia 12345</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-2">Telepon</h3>
+                                    <p class="text-gray-600" id="contact-phone">(021) 1234-5678</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-800 mb-2">Email</h3>
+                                    <p class="text-gray-600" id="contact-email">info@smpn1nusantara.sch.id</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl p-8 shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Kirim Pesan</h3>
+                        <form class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                                <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Pesan</label>
+                                <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                            </div>
+                            <button type="button" onclick="showDemo()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                                Kirim Pesan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-panel fixed inset-0 bg-gray-900 bg-opacity-50 z-50">
+        <div class="min-h-screen bg-white">
+            <!-- Admin Header -->
+            <div class="bg-blue-600 text-white p-4">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold">Panel Admin - SMP Negeri 1 Nusantara</h1>
+                    <button onclick="toggleAdmin()" class="bg-blue-700 px-4 py-2 rounded hover:bg-blue-800">
+                        <i class="fas fa-times mr-2"></i>Tutup
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Content -->
+            <div class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <!-- Sidebar -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h3 class="font-bold text-gray-800 mb-4">Menu Admin</h3>
+                            <nav class="space-y-2">
+                                <button onclick="showAdminSection('hero')" class="admin-nav-btn w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-700">
+                                    <i class="fas fa-home mr-2"></i>Hero Section
+                                </button>
+                                <button onclick="showAdminSection('about')" class="admin-nav-btn w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-700">
+                                    <i class="fas fa-info-circle mr-2"></i>Tentang Sekolah
+                                </button>
+                                <button onclick="showAdminSection('programs')" class="admin-nav-btn w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-700">
+                                    <i class="fas fa-graduation-cap mr-2"></i>Program
+                                </button>
+                                <button onclick="showAdminSection('news')" class="admin-nav-btn w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-700">
+                                    <i class="fas fa-newspaper mr-2"></i>Berita
+                                </button>
+                                <button onclick="showAdminSection('contact')" class="admin-nav-btn w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-700">
+                                    <i class="fas fa-phone mr-2"></i>Kontak
+                                </button>
+                            </nav>
+                        </div>
+                    </div>
+
+                    <!-- Main Admin Content -->
+                    <div class="lg:col-span-3">
+                        <!-- Hero Admin -->
+                        <div id="admin-hero" class="admin-section">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <h2 class="text-xl font-bold mb-6">Edit Hero Section</h2>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Judul Utama</label>
+                                        <input type="text" id="edit-hero-title" class="w-full px-3 py-2 border rounded-lg" value="Membangun Generasi Unggul dan Berkarakter">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Subtitle</label>
+                                        <textarea id="edit-hero-subtitle" class="w-full px-3 py-2 border rounded-lg" rows="3">SMP Negeri 1 Nusantara berkomitmen memberikan pendidikan berkualitas dengan fasilitas modern dan tenaga pengajar profesional.</textarea>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">URL Gambar Hero</label>
+                                        <input type="url" id="edit-hero-image" class="w-full px-3 py-2 border rounded-lg" value="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                                    </div>
+                                    <button onclick="updateHero()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                        Simpan Perubahan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- About Admin -->
+                        <div id="admin-about" class="admin-section hidden">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <h2 class="text-xl font-bold mb-6">Edit Tentang Sekolah</h2>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Judul Section</label>
+                                        <input type="text" id="edit-about-title" class="w-full px-3 py-2 border rounded-lg" value="Visi & Misi Sekolah">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">URL Gambar</label>
+                                        <input type="url" id="edit-about-image" class="w-full px-3 py-2 border rounded-lg" value="https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                                    </div>
+                                    <button onclick="updateAbout()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                        Simpan Perubahan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Admin -->
+                        <div id="admin-contact" class="admin-section hidden">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <h2 class="text-xl font-bold mb-6">Edit Informasi Kontak</h2>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Alamat</label>
+                                        <input type="text" id="edit-contact-address" class="w-full px-3 py-2 border rounded-lg" value="Jl. Pendidikan No. 123, Kota Nusantara, Indonesia 12345">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Telepon</label>
+                                        <input type="text" id="edit-contact-phone" class="w-full px-3 py-2 border rounded-lg" value="(021) 1234-5678">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Email</label>
+                                        <input type="email" id="edit-contact-email" class="w-full px-3 py-2 border rounded-lg" value="info@smpn1nusantara.sch.id">
+                                    </div>
+                                    <button onclick="updateContact()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                        Simpan Perubahan
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Programs Admin -->
+                        <div id="admin-programs" class="admin-section hidden">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h2 class="text-xl font-bold">Kelola Program Unggulan</h2>
+                                    <button onclick="showAddProgramForm()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                        <i class="fas fa-plus mr-2"></i>Tambah Program
+                                    </button>
+                                </div>
+                                
+                                <!-- Add/Edit Program Form -->
+                                <div id="program-form" class="hidden mb-6 p-4 bg-gray-50 rounded-lg">
+                                    <h3 class="text-lg font-semibold mb-4" id="program-form-title">Tambah Program Baru</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Nama Program</label>
+                                            <input type="text" id="program-name" class="w-full px-3 py-2 border rounded-lg">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Icon (Font Awesome)</label>
+                                            <input type="text" id="program-icon" class="w-full px-3 py-2 border rounded-lg" placeholder="fas fa-laptop-code">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Warna Icon</label>
+                                            <select id="program-color" class="w-full px-3 py-2 border rounded-lg">
+                                                <option value="blue">Biru</option>
+                                                <option value="green">Hijau</option>
+                                                <option value="purple">Ungu</option>
+                                                <option value="red">Merah</option>
+                                                <option value="yellow">Kuning</option>
+                                                <option value="indigo">Indigo</option>
+                                            </select>
+                                        </div>
+                                        <div></div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium mb-2">Deskripsi Program</label>
+                                            <textarea id="program-description" rows="3" class="w-full px-3 py-2 border rounded-lg"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2 mt-4">
+                                        <button onclick="saveProgram()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                            <i class="fas fa-save mr-2"></i>Simpan
+                                        </button>
+                                        <button onclick="cancelProgramForm()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+                                            Batal
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Programs List -->
+                                <div class="space-y-4" id="programs-admin-list">
+                                    <!-- Program items will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- News Admin -->
+                        <div id="admin-news" class="admin-section hidden">
+                            <div class="bg-white rounded-lg shadow p-6">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h2 class="text-xl font-bold">Kelola Berita</h2>
+                                    <button onclick="showAddNewsForm()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                        <i class="fas fa-plus mr-2"></i>Tambah Berita
+                                    </button>
+                                </div>
+                                
+                                <!-- Add/Edit News Form -->
+                                <div id="news-form" class="hidden mb-6 p-4 bg-gray-50 rounded-lg">
+                                    <h3 class="text-lg font-semibold mb-4" id="form-title">Tambah Berita Baru</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Judul Berita</label>
+                                            <input type="text" id="news-title" class="w-full px-3 py-2 border rounded-lg">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium mb-2">Tanggal</label>
+                                            <input type="date" id="news-date" class="w-full px-3 py-2 border rounded-lg">
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium mb-2">URL Gambar</label>
+                                            <input type="url" id="news-image" class="w-full px-3 py-2 border rounded-lg" placeholder="https://example.com/image.jpg">
+                                        </div>
+                                        <div class="md:col-span-2">
+                                            <label class="block text-sm font-medium mb-2">Konten Berita</label>
+                                            <textarea id="news-content" rows="4" class="w-full px-3 py-2 border rounded-lg"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2 mt-4">
+                                        <button onclick="saveNews()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                            <i class="fas fa-save mr-2"></i>Simpan
+                                        </button>
+                                        <button onclick="cancelNewsForm()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+                                            Batal
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- News List -->
+                                <div class="space-y-4" id="news-list">
+                                    <!-- News items will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <i class="fas fa-graduation-cap text-white text-xl"></i>
+                        </div>
+                        <span class="font-bold text-xl">SMP Negeri 1 Nusantara</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">Membangun generasi unggul dan berkarakter melalui pendidikan berkualitas.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-white"><i class="fab fa-youtube text-xl"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Menu Cepat</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#home" class="hover:text-white">Beranda</a></li>
+                        <li><a href="#about" class="hover:text-white">Tentang</a></li>
+                        <li><a href="#programs" class="hover:text-white">Program</a></li>
+                        <li><a href="#news" class="hover:text-white">Berita</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Kontak</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-phone mr-2"></i>(021) 1234-5678</li>
+                        <li><i class="fas fa-envelope mr-2"></i>info@smpn1nusantara.sch.id</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i>Kota Nusantara</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-300">
+                <p>&copy; 2024 SMP Negeri 1 Nusantara. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Data Storage
+        let newsData = [
+            {
+                id: 1,
+                title: 'Siswa SMP Negeri 1 Raih Juara Olimpiade Sains',
+                date: '2024-12-15',
+                image: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                content: 'Tim olimpiade sains berhasil meraih medali emas dalam kompetisi tingkat provinsi...'
+            },
+            {
+                id: 2,
+                title: 'Penerimaan Siswa Baru Tahun Ajaran 2025/2026',
+                date: '2024-12-10',
+                image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                content: 'Pendaftaran siswa baru telah dibuka dengan berbagai jalur penerimaan yang tersedia...'
+            },
+            {
+                id: 3,
+                title: 'Peresmian Laboratorium Komputer Baru',
+                date: '2024-12-05',
+                image: 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+                content: 'Fasilitas laboratorium komputer dengan teknologi terbaru telah resmi beroperasi...'
+            }
+        ];
+
+        let programsData = [
+            {
+                id: 1,
+                name: 'Kelas Digital',
+                icon: 'fas fa-laptop-code',
+                color: 'blue',
+                description: 'Program pembelajaran berbasis teknologi dengan fasilitas komputer dan internet terbaru.'
+            },
+            {
+                id: 2,
+                name: 'Laboratorium Sains',
+                icon: 'fas fa-flask',
+                color: 'green',
+                description: 'Fasilitas laboratorium lengkap untuk praktikum IPA yang mendukung pembelajaran eksperimental.'
+            },
+            {
+                id: 3,
+                name: 'Ekstrakurikuler Seni',
+                icon: 'fas fa-palette',
+                color: 'purple',
+                description: 'Berbagai kegiatan seni seperti musik, tari, dan lukis untuk mengembangkan kreativitas siswa.'
+            }
+        ];
+
+        let editingNewsId = null;
+        let editingProgramId = null;
+
+        // Navigation Functions
+        function toggleAdmin() {
+            const adminPanel = document.getElementById('admin-panel');
+            adminPanel.classList.toggle('active');
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function showAdminSection(section) {
+            // Hide all admin sections
+            const sections = document.querySelectorAll('.admin-section');
+            sections.forEach(s => s.classList.add('hidden'));
+            
+            // Show selected section
+            document.getElementById('admin-' + section).classList.remove('hidden');
+            
+            // Update nav buttons
+            const navButtons = document.querySelectorAll('.admin-nav-btn');
+            navButtons.forEach(btn => btn.classList.remove('bg-blue-100'));
+            event.target.classList.add('bg-blue-100');
+
+            // Load data for specific sections
+            if (section === 'news') {
+                loadNewsList();
+            } else if (section === 'programs') {
+                loadProgramsList();
+            }
+        }
+
+        // Hero Section Functions
+        function updateHero() {
+            const title = document.getElementById('edit-hero-title').value;
+            const subtitle = document.getElementById('edit-hero-subtitle').value;
+            const imageUrl = document.getElementById('edit-hero-image').value;
+            
+            document.getElementById('hero-title').textContent = title;
+            document.getElementById('hero-subtitle').textContent = subtitle;
+            document.getElementById('hero-image').src = imageUrl;
+            
+            showSuccessMessage('Hero section berhasil diperbarui!');
+        }
+
+        function updateAbout() {
+            const title = document.getElementById('edit-about-title').value;
+            const imageUrl = document.getElementById('edit-about-image').value;
+            
+            document.getElementById('about-title').textContent = title;
+            document.getElementById('about-image').src = imageUrl;
+            
+            showSuccessMessage('Section tentang berhasil diperbarui!');
+        }
+
+        function updateContact() {
+            const address = document.getElementById('edit-contact-address').value;
+            const phone = document.getElementById('edit-contact-phone').value;
+            const email = document.getElementById('edit-contact-email').value;
+            
+            document.getElementById('contact-address').textContent = address;
+            document.getElementById('contact-phone').textContent = phone;
+            document.getElementById('contact-email').textContent = email;
+            
+            showSuccessMessage('Informasi kontak berhasil diperbarui!');
+        }
+
+        // News CRUD Functions
+        function showAddNewsForm() {
+            document.getElementById('news-form').classList.remove('hidden');
+            document.getElementById('form-title').textContent = 'Tambah Berita Baru';
+            clearNewsForm();
+            editingNewsId = null;
+        }
+
+        function clearNewsForm() {
+            document.getElementById('news-title').value = '';
+            document.getElementById('news-date').value = '';
+            document.getElementById('news-image').value = '';
+            document.getElementById('news-content').value = '';
+        }
+
+        function cancelNewsForm() {
+            document.getElementById('news-form').classList.add('hidden');
+            clearNewsForm();
+            editingNewsId = null;
+        }
+
+        function saveNews() {
+            const title = document.getElementById('news-title').value;
+            const date = document.getElementById('news-date').value;
+            const image = document.getElementById('news-image').value;
+            const content = document.getElementById('news-content').value;
+
+            if (!title || !date || !content) {
+                alert('Mohon lengkapi semua field yang wajib diisi!');
+                return;
+            }
+
+            if (editingNewsId) {
+                // Update existing news
+                const index = newsData.findIndex(news => news.id === editingNewsId);
+                if (index !== -1) {
+                    newsData[index] = { ...newsData[index], title, date, image, content };
+                    showSuccessMessage('Berita berhasil diperbarui!');
+                }
+            } else {
+                // Add new news
+                const newNews = {
+                    id: Date.now(),
+                    title,
+                    date,
+                    image,
+                    content
+                };
+                newsData.unshift(newNews);
+                showSuccessMessage('Berita berhasil ditambahkan!');
+            }
+
+            cancelNewsForm();
+            loadNewsList();
+            updateNewsDisplay();
+        }
+
+        function editNews(id) {
+            const news = newsData.find(n => n.id === id);
+            if (news) {
+                document.getElementById('news-title').value = news.title;
+                document.getElementById('news-date').value = news.date;
+                document.getElementById('news-image').value = news.image;
+                document.getElementById('news-content').value = news.content;
+                document.getElementById('form-title').textContent = 'Edit Berita';
+                document.getElementById('news-form').classList.remove('hidden');
+                editingNewsId = id;
+            }
+        }
+
+        function deleteNews(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus berita ini?')) {
+                newsData = newsData.filter(news => news.id !== id);
+                loadNewsList();
+                updateNewsDisplay();
+                showSuccessMessage('Berita berhasil dihapus!');
+            }
+        }
+
+        function loadNewsList() {
+            const newsList = document.getElementById('news-list');
+            newsList.innerHTML = '';
+
+            newsData.forEach(news => {
+                const newsItem = document.createElement('div');
+                newsItem.className = 'border rounded-lg p-4 flex justify-between items-start';
+                newsItem.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-gray-800">${news.title}</h4>
+                        <p class="text-sm text-gray-500 mb-2">${formatDate(news.date)}</p>
+                        <p class="text-gray-600 text-sm">${news.content.substring(0, 100)}...</p>
+                    </div>
+                    <div class="flex gap-2 ml-4">
+                        <button onclick="editNews(${news.id})" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteNews(${news.id})" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                newsList.appendChild(newsItem);
+            });
+        }
+
+        function updateNewsDisplay() {
+            const newsGrid = document.getElementById('news-grid');
+            newsGrid.innerHTML = '';
+
+            newsData.slice(0, 3).forEach(news => {
+                const newsArticle = document.createElement('article');
+                newsArticle.className = 'bg-white rounded-2xl shadow-lg overflow-hidden card-hover';
+                newsArticle.innerHTML = `
+                    <img src="${news.image}" alt="${news.title}" class="w-full h-48 object-cover" onerror="this.src=''; this.alt='Gambar tidak dapat dimuat'; this.style.display='none';">
+                    <div class="p-6">
+                        <span class="text-blue-600 text-sm font-semibold">${formatDate(news.date)}</span>
+                        <h3 class="text-xl font-bold text-gray-800 mt-2 mb-3">${news.title}</h3>
+                        <p class="text-gray-600">${news.content}</p>
+                    </div>
+                `;
+                newsGrid.appendChild(newsArticle);
+            });
+        }
+
+        // Programs CRUD Functions
+        function showAddProgramForm() {
+            document.getElementById('program-form').classList.remove('hidden');
+            document.getElementById('program-form-title').textContent = 'Tambah Program Baru';
+            clearProgramForm();
+            editingProgramId = null;
+        }
+
+        function clearProgramForm() {
+            document.getElementById('program-name').value = '';
+            document.getElementById('program-icon').value = '';
+            document.getElementById('program-color').value = 'blue';
+            document.getElementById('program-description').value = '';
+        }
+
+        function cancelProgramForm() {
+            document.getElementById('program-form').classList.add('hidden');
+            clearProgramForm();
+            editingProgramId = null;
+        }
+
+        function saveProgram() {
+            const name = document.getElementById('program-name').value;
+            const icon = document.getElementById('program-icon').value;
+            const color = document.getElementById('program-color').value;
+            const description = document.getElementById('program-description').value;
+
+            if (!name || !icon || !description) {
+                alert('Mohon lengkapi semua field!');
+                return;
+            }
+
+            if (editingProgramId) {
+                // Update existing program
+                const index = programsData.findIndex(program => program.id === editingProgramId);
+                if (index !== -1) {
+                    programsData[index] = { ...programsData[index], name, icon, color, description };
+                    showSuccessMessage('Program berhasil diperbarui!');
+                }
+            } else {
+                // Add new program
+                const newProgram = {
+                    id: Date.now(),
+                    name,
+                    icon,
+                    color,
+                    description
+                };
+                programsData.push(newProgram);
+                showSuccessMessage('Program berhasil ditambahkan!');
+            }
+
+            cancelProgramForm();
+            loadProgramsList();
+            updateProgramsDisplay();
+        }
+
+        function editProgram(id) {
+            const program = programsData.find(p => p.id === id);
+            if (program) {
+                document.getElementById('program-name').value = program.name;
+                document.getElementById('program-icon').value = program.icon;
+                document.getElementById('program-color').value = program.color;
+                document.getElementById('program-description').value = program.description;
+                document.getElementById('program-form-title').textContent = 'Edit Program';
+                document.getElementById('program-form').classList.remove('hidden');
+                editingProgramId = id;
+            }
+        }
+
+        function deleteProgram(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus program ini?')) {
+                programsData = programsData.filter(program => program.id !== id);
+                loadProgramsList();
+                updateProgramsDisplay();
+                showSuccessMessage('Program berhasil dihapus!');
+            }
+        }
+
+        function loadProgramsList() {
+            const programsList = document.getElementById('programs-admin-list');
+            programsList.innerHTML = '';
+
+            programsData.forEach(program => {
+                const programItem = document.createElement('div');
+                programItem.className = 'border rounded-lg p-4 flex justify-between items-start';
+                programItem.innerHTML = `
+                    <div class="flex items-start">
+                        <div class="w-12 h-12 bg-${program.color}-100 rounded-lg flex items-center justify-center mr-4">
+                            <i class="${program.icon} text-${program.color}-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-800">${program.name}</h4>
+                            <p class="text-gray-600 text-sm mt-1">${program.description}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 ml-4">
+                        <button onclick="editProgram(${program.id})" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button onclick="deleteProgram(${program.id})" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                programsList.appendChild(programItem);
+            });
+        }
+
+        function updateProgramsDisplay() {
+            const programsGrid = document.getElementById('programs-grid');
+            programsGrid.innerHTML = '';
+
+            programsData.forEach(program => {
+                const programCard = document.createElement('div');
+                programCard.className = 'bg-white rounded-2xl p-8 shadow-lg card-hover';
+                programCard.innerHTML = `
+                    <div class="w-16 h-16 bg-${program.color}-100 rounded-xl flex items-center justify-center mb-6">
+                        <i class="${program.icon} text-${program.color}-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">${program.name}</h3>
+                    <p class="text-gray-600">${program.description}</p>
+                `;
+                programsGrid.appendChild(programCard);
+            });
+        }
+
+        // Utility Functions
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('id-ID', options);
+        }
+
+        function showSuccessMessage(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+            alertDiv.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    ${message}
+                </div>
+            `;
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+
+        function showDemo() {
+            alert('Demo: Pesan Anda telah terkirim! Ini adalah contoh formulir kontak.');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            showAdminSection('hero');
+            updateNewsDisplay();
+            updateProgramsDisplay();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97793345e18fafe4',t:'MTc1NjYwODQxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
