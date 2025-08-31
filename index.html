@@ -75,7 +75,7 @@
                     </div>
                     <a href="#news" class="text-gray-700 hover:text-blue-600 font-medium transition">Berita</a>
                     <a href="#contact" class="text-gray-700 hover:text-blue-600 font-medium transition">Kontak</a>
-                    <button onclick="toggleAdmin()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+                    <button onclick="showLoginModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         <i class="fas fa-cog mr-2"></i>Admin
                     </button>
                 </div>
@@ -95,7 +95,7 @@
                 <a href="#programs" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Program</a>
                 <a href="#news" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Berita</a>
                 <a href="#contact" class="block px-3 py-2 text-gray-700 hover:bg-blue-50 rounded">Kontak</a>
-                <button onclick="toggleAdmin()" class="block w-full text-left px-3 py-2 text-blue-600 hover:bg-blue-50 rounded">
+                <button onclick="showLoginModal()" class="block w-full text-left px-3 py-2 text-blue-600 hover:bg-blue-50 rounded">
                     <i class="fas fa-cog mr-2"></i>Admin
                 </button>
             </div>
@@ -316,6 +316,52 @@
         </section>
     </div>
 
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lock text-blue-600 text-2xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Login Admin</h2>
+                <p class="text-gray-600 mt-2">Masukkan kredensial untuk mengakses panel admin</p>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                    <input type="text" id="login-username" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Masukkan username" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="login-password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Masukkan password" required>
+                </div>
+                <div id="login-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span>Username atau password salah!</span>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Masuk
+                    </button>
+                    <button type="button" onclick="hideLoginModal()" class="flex-1 bg-gray-500 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition">
+                        Batal
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p class="text-sm text-blue-800 font-medium mb-2">
+                    <i class="fas fa-info-circle mr-2"></i>Demo Kredensial:
+                </p>
+                <p class="text-sm text-blue-700">
+                    <strong>Username:</strong> admin<br>
+                    <strong>Password:</strong> admin123
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Admin Panel -->
     <div id="admin-panel" class="admin-panel fixed inset-0 bg-gray-900 bg-opacity-50 z-50">
         <div class="min-h-screen bg-white">
@@ -323,9 +369,14 @@
             <div class="bg-blue-600 text-white p-4">
                 <div class="flex justify-between items-center">
                     <h1 class="text-2xl font-bold">Panel Admin - SMP Negeri 1 Nusantara</h1>
-                    <button onclick="toggleAdmin()" class="bg-blue-700 px-4 py-2 rounded hover:bg-blue-800">
-                        <i class="fas fa-times mr-2"></i>Tutup
-                    </button>
+                    <div class="flex gap-2">
+                        <span class="bg-blue-700 px-3 py-2 rounded text-sm">
+                            <i class="fas fa-user mr-2"></i>Admin
+                        </span>
+                        <button onclick="logoutAdmin()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -629,11 +680,69 @@
 
         let editingNewsId = null;
         let editingProgramId = null;
+        let isLoggedIn = false;
+
+        // Admin credentials (dalam implementasi nyata, ini harus disimpan dengan aman di server)
+        const adminCredentials = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // Login Functions
+        function showLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('login-username').focus();
+        }
+
+        function hideLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                isLoggedIn = true;
+                hideLoginModal();
+                showAdminPanel();
+                showSuccessMessage('Login berhasil! Selamat datang di panel admin.');
+            } else {
+                document.getElementById('login-error').classList.remove('hidden');
+                document.getElementById('login-password').value = '';
+                document.getElementById('login-password').focus();
+            }
+        }
+
+        function showAdminPanel() {
+            if (!isLoggedIn) {
+                showLoginModal();
+                return;
+            }
+            document.getElementById('admin-panel').classList.add('active');
+        }
+
+        function logoutAdmin() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                isLoggedIn = false;
+                document.getElementById('admin-panel').classList.remove('active');
+                showSuccessMessage('Logout berhasil!');
+            }
+        }
 
         // Navigation Functions
         function toggleAdmin() {
-            const adminPanel = document.getElementById('admin-panel');
-            adminPanel.classList.toggle('active');
+            if (isLoggedIn) {
+                const adminPanel = document.getElementById('admin-panel');
+                adminPanel.classList.toggle('active');
+            } else {
+                showLoginModal();
+            }
         }
 
         function toggleMobileMenu() {
@@ -642,6 +751,11 @@
         }
 
         function showAdminSection(section) {
+            if (!isLoggedIn) {
+                showLoginModal();
+                return;
+            }
+            
             // Hide all admin sections
             const sections = document.querySelectorAll('.admin-section');
             sections.forEach(s => s.classList.add('hidden'));
@@ -995,5 +1109,5 @@
             updateProgramsDisplay();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97793345e18fafe4',t:'MTc1NjYwODQxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977944dd975cc826',t:'MTc1NjYwOTEzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
